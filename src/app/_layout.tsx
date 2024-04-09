@@ -1,52 +1,63 @@
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import {
 	AmaticSC_400Regular,
 	AmaticSC_700Bold,
 } from "@expo-google-fonts/amatic-sc";
 import {
-	Inter_900Black,
+	Inter_400Regular,
 	Inter_600SemiBold,
 	Inter_700Bold,
-	Inter_400Regular,
+	Inter_900Black,
 	useFonts,
 } from "@expo-google-fonts/inter";
-import { Stack } from "expo-router";
-import { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-SplashScreen.preventAutoHideAsync();
+import AnimatedSplashScreen from "@/components/day4/AnimatedSplashScreen";
+import Animated, { FadeIn } from "react-native-reanimated";
 
-const RootLayout = () => {
-	let [fontsLoaded, fontError] = useFonts({
+// SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+	const [appReady, setAppReady] = useState(false);
+	const [splashAnimationFinished, setSplashAnimationFinished] = useState(false);
+
+	const [fontsLoaded, fontError] = useFonts({
 		Inter: Inter_400Regular,
 		InterSemi: Inter_600SemiBold,
 		InterBold: Inter_700Bold,
 		InterBlack: Inter_900Black,
+
 		Amatic: AmaticSC_400Regular,
 		AmaticBold: AmaticSC_700Bold,
 	});
 
 	useEffect(() => {
-		if (fontsLoaded || !fontError) {
-			SplashScreen.hideAsync();
+		if (fontsLoaded || fontError) {
+			// SplashScreen.hideAsync();
+			setAppReady(true);
 		}
 	}, [fontsLoaded, fontError]);
 
-	if (!fontsLoaded && !fontError) {
-		return null;
+	const showAnimatedSplash = !appReady || !splashAnimationFinished;
+	if (showAnimatedSplash) {
+		return (
+			<AnimatedSplashScreen
+				onAnimationFinish={() => {
+					setSplashAnimationFinished(true);
+				}}
+			/>
+		);
 	}
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
-			<Stack screenOptions={{}}>
-				<Stack.Screen
-					name="index"
-					options={{
-						title: "DEVember",
-					}}
-				/>
-			</Stack>
+			<Animated.View style={{ flex: 1 }} entering={FadeIn}>
+				<Stack screenOptions={{}}>
+					<Stack.Screen name="index" options={{ title: "DEVember" }} />
+				</Stack>
+			</Animated.View>
 		</GestureHandlerRootView>
 	);
-};
-export default RootLayout;
+}
