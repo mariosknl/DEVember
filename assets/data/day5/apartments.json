@@ -1,0 +1,52 @@
+[
+	{
+		"id": 1,
+		"latitude": 37.9838,
+		"longitude": 23.7275,
+		"price": 100,
+		"title": "Cozy Apartment in Athens City Center",
+		"numberOfStars": 4,
+		"rating": 8.5,
+		"image": "https://placeholder.com/500x500.jpg"
+	},
+	{
+		"id": 2,
+		"latitude": 37.9762,
+		"longitude": 23.7369,
+		"price": 80,
+		"title": "Modern Loft with Acropolis View",
+		"numberOfStars": 5,
+		"rating": 9.2,
+		"image": "https://placeholder.com/500x500.jpg"
+	},
+	{
+		"id": 3,
+		"latitude": 37.9824,
+		"longitude": 23.7338,
+		"price": 120,
+		"title": "Luxury Penthouse in Plaka District",
+		"numberOfStars": 5,
+		"rating": 9.8,
+		"image": "https://placeholder.com/500x500.jpg"
+	},
+	{
+		"id": 4,
+		"latitude": 37.9795,
+		"longitude": 23.7162,
+		"price": 90,
+		"title": "Charming Studio near Syntagma Square",
+		"numberOfStars": 4,
+		"rating": 8.0,
+		"image": "https://placeholder.com/500x500.jpg"
+	},
+	{
+		"id": 5,
+		"latitude": 37.9674,
+		"longitude": 23.7255,
+		"price": 150,
+		"title": "Seaside Villa in Glyfada",
+		"numberOfStars": 5,
+		"rating": 9.5,
+		"image": "https://placeholder.com/500x500.jpg"
+	}
+]
