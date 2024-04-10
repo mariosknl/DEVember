@@ -10,6 +10,10 @@ import {
 } from "react-native";
 import { Audio } from "expo-av";
 import { Recording } from "expo-av/build/Audio";
+import Animated, {
+	useAnimatedStyle,
+	withTiming,
+} from "react-native-reanimated";
 
 export default function MemosScreen() {
 	const [recording, setRecording] = useState<Recording>();
@@ -55,6 +59,11 @@ export default function MemosScreen() {
 		}
 	}
 
+	const animatedRedCircle = useAnimatedStyle(() => ({
+		width: withTiming(recording ? "60%" : "100%"),
+		borderRadius: withTiming(recording ? 5 : 35),
+	}));
+
 	return (
 		<View style={styles.container}>
 			<FlatList data={memos} renderItem={({ item }) => <Text>{item}</Text>} />
@@ -64,7 +73,7 @@ export default function MemosScreen() {
 					style={styles.recordButton}
 					onPress={recording ? stopRecording : startRecording}
 				>
-					<View style={styles.redCircle} />
+					<Animated.View style={[styles.redCircle, animatedRedCircle]} />
 				</Pressable>
 			</View>
 		</View>
@@ -79,21 +88,24 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		backgroundColor: "white",
-		height: 200,
+		height: 150,
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	recordButton: {
+		width: 60,
+		height: 60,
 		borderRadius: 60,
 
 		borderWidth: 3,
 		borderColor: "gray",
 		padding: 3,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	redCircle: {
 		backgroundColor: "orangered",
-		height: 60,
-		width: 60,
+		aspectRatio: 1,
 		borderRadius: 30,
 	},
 });
