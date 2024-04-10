@@ -1,12 +1,17 @@
 import TinderCard from "@/components/day6/TinderCard";
 import { Stack } from "expo-router";
-import { View } from "react-native";
-import { useSharedValue, withSpring } from "react-native-reanimated";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import {
-	GestureDetector,
-	PanGesture,
-	Gesture,
-} from "react-native-gesture-handler";
+	interpolate,
+	useAnimatedReaction,
+	useDerivedValue,
+	useSharedValue,
+	withDecay,
+	withSpring,
+	runOnJS,
+} from "react-native-reanimated";
 
 const dummuUsers = [
 	{
@@ -48,38 +53,48 @@ const dummuUsers = [
 ];
 
 const TinderScreen = () => {
+	const [users, setUsers] = useState(dummuUsers);
 	const activeIndex = useSharedValue(0);
-	const translationX = useSharedValue(0);
+	const [index, setIndex] = useState(0);
 
-	const gesture = Gesture.Pan()
-		.onBegin((event) => console.log("onBegin", event))
-		.onStart((event) => console.log("onStart", event))
-		.onChange((event) => {
-			translationX.value = event.translationX;
-		})
-		.onUpdate((event) => console.log("onUpdate", event))
-		.onEnd((event) => {
-			translationX.value = withSpring(0);
-		})
-		.onFinalize((event) => console.log("onFinalize", event));
+	useAnimatedReaction(
+		() => activeIndex.value,
+		(value, prevValue) => {
+			if (Math.floor(value) !== index) {
+				runOnJS(setIndex)(Math.floor(value));
+			}
+		}
+	);
+
+	useEffect(() => {
+		if (index > users.length - 3) {
+			console.warn("Last 2 cards remining. Fetch more!");
+			setUsers((usrs) => [...usrs, ...dummuUsers.reverse()]);
+		}
+	}, [index]);
+
+	const onResponse = (res: boolean) => {
+		console.log("on Response: ", res);
+	};
 
 	return (
-		<GestureDetector gesture={gesture}>
-			<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-				<Stack.Screen options={{ headerShown: false }} />
-
-				{dummuUsers.map((user, index) => (
-					<TinderCard
-						key={user.id}
-						user={user}
-						numOfCards={dummuUsers.length}
-						index={index}
-						activeIndex={activeIndex}
-						translationX={translationX}
-					/>
-				))}
-			</View>
-		</GestureDetector>
+		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+			<Stack.Screen options={{ headerShown: false }} />
+			{/* <Text style={{ top: 70, position: 'absolute' }}>
+        Current index: {index}
+      </Text> */}
+			{users.map((user, index) => (
+				<TinderCard
+					key={`${user.id}-${index}`}
+					user={user}
+					numOfCards={users.length}
+					index={index}
+					activeIndex={activeIndex}
+					onResponse={onResponse}
+				/>
+			))}
+		</View>
 	);
 };
+
 export default TinderScreen;
