@@ -26,6 +26,15 @@
 			"favicon": "./assets/favicon.png",
 			"bundler": "metro"
 		},
-		"plugins": ["expo-font", "expo-router"]
+		"plugins": [
+			"expo-font",
+			[
+				"expo-av",
+				{
+					"microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+				}
+			],
+			"expo-router"
+		]
 	}
 }
