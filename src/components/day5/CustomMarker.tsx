@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
 
-type CustomMarkerProps = {
+export type CustomMarkerProps = {
 	apartment: {
 		id: number;
 		latitude: number;
@@ -9,11 +9,13 @@ type CustomMarkerProps = {
 		title: string;
 		price: number;
 	};
+	onPress: () => void;
 };
 
-const CustomMarker = ({ apartment }: CustomMarkerProps) => {
+const CustomMarker = ({ apartment, onPress }: CustomMarkerProps) => {
 	return (
 		<Marker
+			onPress={onPress}
 			key={apartment.id}
 			coordinate={{
 				latitude: apartment.latitude,
