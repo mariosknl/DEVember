@@ -19,6 +19,7 @@ import AnimatedSplashScreen from "@/components/day4/AnimatedSplashScreen";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 import { Amplify } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react-native";
 import amplifyconfig from "@/amplifyconfiguration.json";
 Amplify.configure(amplifyconfig);
 
@@ -67,14 +68,16 @@ export default function RootLayout() {
 	}
 
 	return (
-		<ThemeProvider theme={theme}>
-			<GestureHandlerRootView style={{ flex: 1 }}>
-				<Animated.View style={{ flex: 1 }} entering={FadeIn}>
-					<Stack screenOptions={{}}>
-						<Stack.Screen name="index" options={{ title: "DEVember" }} />
-					</Stack>
-				</Animated.View>
-			</GestureHandlerRootView>
-		</ThemeProvider>
+		<Authenticator.Provider>
+			<ThemeProvider theme={theme}>
+				<GestureHandlerRootView style={{ flex: 1 }}>
+					<Animated.View style={{ flex: 1 }} entering={FadeIn}>
+						<Stack screenOptions={{}}>
+							<Stack.Screen name="index" options={{ title: "DEVember" }} />
+						</Stack>
+					</Animated.View>
+				</GestureHandlerRootView>
+			</ThemeProvider>
+		</Authenticator.Provider>
 	);
 }
