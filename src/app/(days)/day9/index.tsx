@@ -16,6 +16,10 @@ const DayDetailsScreen = () => {
 			<Link href="/day9/protected" asChild>
 				<Button title="Go to Protected Page" />
 			</Link>
+
+			<Link href="/day9/auth/sign-in" asChild>
+				<Button title="Go to Sign" />
+			</Link>
 		</SafeAreaView>
 	);
 };

@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ThemeProvider } from "@aws-amplify/ui-react-native";
 
 import {
 	AmaticSC_400Regular,
@@ -20,6 +21,16 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { Amplify } from "aws-amplify";
 import amplifyconfig from "@/amplifyconfiguration.json";
 Amplify.configure(amplifyconfig);
+
+const theme = {
+	tokens: {
+		colors: {
+			font: {
+				primary: "black",
+			},
+		},
+	},
+};
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -56,12 +67,14 @@ export default function RootLayout() {
 	}
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
-			<Animated.View style={{ flex: 1 }} entering={FadeIn}>
-				<Stack screenOptions={{}}>
-					<Stack.Screen name="index" options={{ title: "DEVember" }} />
-				</Stack>
-			</Animated.View>
-		</GestureHandlerRootView>
+		<ThemeProvider theme={theme}>
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<Animated.View style={{ flex: 1 }} entering={FadeIn}>
+					<Stack screenOptions={{}}>
+						<Stack.Screen name="index" options={{ title: "DEVember" }} />
+					</Stack>
+				</Animated.View>
+			</GestureHandlerRootView>
+		</ThemeProvider>
 	);
 }

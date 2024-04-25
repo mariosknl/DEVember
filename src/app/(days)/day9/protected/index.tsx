@@ -3,6 +3,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react-native";
 
 const ProtectedScreen = () => {
 	const { signOut } = useAuthenticator();
+
 	return (
 		<View style={{ padding: 10 }}>
 			<Text style={{ fontFamily: "InterBold", fontSize: 30 }}>Hello there</Text>
